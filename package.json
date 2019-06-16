@@ -1,13 +1,13 @@
 {
-  "name": "appengine-hello-world",
-  "description": "Simple Hello World Node.js sample for Google App Engine Standard Environment.",
+  "name": "crisps",
+  "description": "Backend for future crisps application.",
   "version": "0.0.1",
   "private": true,
-  "license": "Apache-2.0",
-  "author": "Google Inc.",
+  "license": "",
+  "author": "Chris Rothwell",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GoogleCloudPlatform/nodejs-docs-samples.git"
+    "url": "https://github.com/chrisrothwell/crisps.git"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -20,7 +20,11 @@
     "e2e-test": "repo-tools test deploy"
   },
   "dependencies": {
-    "express": "^4.16.3"
+    "@hapi/joi": "^15.0.3",
+    "axios": "^0.19.0",
+    "ejs": "^2.6.2",
+    "express": "^4.16.3",
+    "unescape": "^1.0.1"
   },
   "devDependencies": {
     "@google-cloud/nodejs-repo-tools": "^3.3.0"

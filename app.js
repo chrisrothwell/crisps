@@ -1,36 +1,73 @@
 /**
- * Copyright 2017, Google, Inc.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * All about crisps - express handler
  */
 
-'use strict';
+'use strict'
 
-// [START gae_node_request_example]
-const express = require('express');
+const express = require('express')
+const app = express()
+const {
+  products, productView
+} = require('./routes')
 
-const app = express();
+app.set('view engine', 'ejs')
 
-app.get('/', (req, res) => {
+app.use('/', productView)
+
+/** STUB FOR PRODUCTS
+{
+  totalPages: '12',
+  items: [
+    {
+      itemID: 'abc',
+      thumbnail: 'abc',
+      shortDescription: 'def',
+      name: 'ghi'
+    },
+    {
+      itemID: 'abc',
+      thumbnail: 'abc',
+      shortDescription: 'def',
+      name: 'ghi'
+    }
+  ]
+}
+*/
+
+app.get('/working', (req, res) => {
   res
     .status(200)
     .send('Hello, world!')
-    .end();
-});
+    .end()
+})
 
+app.use('/products', products)
+
+// error middleware
+app.use(function (err, req, res, next) {
+  console.log('At error handler middleware')
+  console.log(err)
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).send(err.message)
+  }
+  if (err.name === 'NotFoundError') {
+    return res.status(404).send(err.message)
+  }
+  if (err.name === 'ValidationError') {
+    return res.status(403).send(err)
+  }
+  if (err.name === 'ForbiddenError') {
+    return res.status(403).send(err.message)
+  }
+  res.status(500).send({
+    msg: err.message
+  })
+})
+
+const PORT = process.env.PORT || 8080
 // Start the server
-const PORT = process.env.PORT || 8080;
+
 app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-  console.log('Press Ctrl+C to quit.');
-});
-// [END gae_node_request_example]
+  console.log(`App listening on port ${PORT}`)
+  console.log('Press Ctrl+C to quit.')
+})

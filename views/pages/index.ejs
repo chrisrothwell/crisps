@@ -1,0 +1,44 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+
+<header>
+    <% include ../partials/header %>
+</header>
+
+<main>
+    <div class="jumbotron">
+        <h1>List of crisps from WalMart API</h1>
+        <h6>Remaining Pages: <%= totalPages %> <a href="/?maxId=<%= maxId %>">[Next Page]</a></h6>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Thumbnail</th>
+              <th scope="col">Name</th>
+              <th scope="col">Short Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% items.forEach((item) => { %>
+            <tr>
+              <th scope="row"><a href="<%= item.productUrl %>"><img src="<%= item.thumbnailImage %>"></a></th>
+              <td><%= item.name %></td>
+              <td><%- item.shortDescription %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+    </div>
+</main>
+
+<footer>
+    <% include ../partials/footer %>
+</footer>
+
+</body>
+</html>
